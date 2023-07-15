@@ -2,27 +2,26 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   'https://otqpalppwyvrtfrfcyxh.supabase.co',
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im90cXBhbHBwd3l2cnRmcmZjeXhoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY4OTI5NjEyMywiZXhwIjoyMDA0ODcyMTIzfQ.UE2eqP4K0H9ztZ-51eTXWSf-tB9QYHPgBBhSu0zXinI")
+  process.env.SUPABASE_KEY)
 
 async function getQuestions() {
   const questions = await supabase
     .from("questions")
     .select("*")
     .then(({ data }) => data as { id: string, text: string }[])
- console.log('QUESTIONS array ',questions);
   return questions;
 }
-const QUESTIONS = [
-  { id: '1', text: 'Que es la pala?' },
-  { id: '2', text: 'Cual es tu nombre real?' },
-  { id: '3', text: 'Cuantos años tienes?' },
-]
+// const QUESTIONS = [
+//   { id: '1', text: 'Que es la pala?' },
+//   { id: '2', text: 'Cual es tu nombre real?' },
+//   { id: '3', text: 'Cuantos años tienes?' },
+// ]
 
 
 export default async function Home() {
 
   const questions = await getQuestions();
-console.log(questions);
+
   return (
     <div className="grid gap-8">
       <form className="grid gap-4">
@@ -51,7 +50,7 @@ console.log(questions);
         className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(230px,1fr))]"
       >
         {
-          QUESTIONS.map((question) => (
+          questions.map((question) => (
             <section
               key={ question.id }
             >
